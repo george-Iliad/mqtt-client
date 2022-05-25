@@ -39,7 +39,7 @@ def catch_post_request():
 def extract_msg(post_request):
     return re.search("msg=(.+)",post_request).group(1)
 
-msg = catch_post_request()
+msg = extract_msg(catch_post_request())
 
 client = mqtt.Client("Client1")
 client.connect(broker, port,60)
@@ -49,6 +49,6 @@ client.on_message = on_message
 client.loop_start()
 client.subscribe(topic)
 print("Subscribed topic:", topic)
-client.publish(topic, extract_msg(msg))
+client.publish(topic, msg)
 time.sleep(5)
 client.loop_stop()
